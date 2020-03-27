@@ -1,0 +1,62 @@
+Postgres:
+
+docker volume create pgdata
+
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 -v pgdata:/var/lib/postgresql/data postgres:9.6
+
+docker exec -it postgres bash
+
+
+sudo docker run --rm --cpus="2" --memory="2g" -it --name postgres2 -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 -v pgdata:/var/lib/postgresql/data postgres:9.6
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Scylla:
+
+docker pull scylladb/scylla
+
+docker run --name scylla --hostname scylla -d scylladb/scylla
+
+========= Status =========
+#Active containers
+$> docker ps
+
+#Container Utilization
+$> docker stats
+
+#Container Details
+$> docker inspect scylla
+
+#NodeTool Status
+$> docker exec -it scylla nodetool status
+
+========== Logs ==========
+#Server Logs
+$> docker logs scylla
+
+#System Out
+$> docker exec -it scylla cat /var/log/cassandra/system.log
+
+#Studio Logs
+$> docker logs my-studio
+
+==== Start/Stop/Remove ====
+#Start Container
+$> docker start scylla
+
+#Stop Container
+$> docker stop scylla
+
+#Remove Container
+$> docker remove scylla
+
+======= Additional =======
+#Contaier IPAddress
+&> docker inspect scylla | grep IPAddress
+
+#CQL (Requires IPAddress from above)
+$> docker exec -it scylla cqlsh [IPAddress]
+
+#Bash
+$> docker exec -it scylla bash

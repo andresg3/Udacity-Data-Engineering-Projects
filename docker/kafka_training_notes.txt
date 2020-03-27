@@ -1,0 +1,54 @@
+MAC: 
+
+Installation dir: /usr/local/Cellar/kafka/2.4.0/bin/
+
+Start zookeeper:  zookeeper-server-start /usr/local/etc/kafka/zookeeper.properties 
+dataDir=/usr/local/var/lib/zookeeper
+
+Start Kafka:  kafka-server-start /usr/local/etc/kafka/server.properties 
+log.dirs=/usr/local/var/lib/kafka-logs
+
+------------------------------------------------------------------------------------------
+
+UBUNTU (docker):
+https://github.com/VinodhThiagarajan1309/apache-kafka-receipes
+
+To Start KAFKA and ZooKeeper:
+sudo docker run --rm --cpus="1" --memory="256m" -it -p 2181:2181 -p 3030:3030 -p 8081:8081 -p 8082:8082 -p 8083:8083 -p 9092:9092 -e ADV_HOST=127.0.0.1 landoop/fast-data-dev
+
+To BASH into the container
+docker run --rm -it --net=host landoop/fast-data-dev bash
+
+Below commands must be RUN from the BASH
+To Create Topic
+kafka-topics --zookeeper 127.0.0.1:2181 --create --topic input-messages --partitions 3 --replication-factor 1
+
+To Push Messages into Topic
+kafka-console-producer --broker-list 127.0.0.1:9092 --topic input-message
+
+------------------------------------------------------------------------------------------
+
+# Create a new topic:
+kafka-topics --zookeeper localhost:2181 --topic Gianna --create --partitions 3 --replication-factor 1
+
+# Write to newly created topic:
+kafka-console-producer --broker-list localhost:9092 --topic Gianna
+
+# Consume topic:
+kafka-console-consumer --bootstrap-server localhost:9092 --topic Gianna --group app1       # can run as many as number of partitions
+
+# List consumer groups:
+kafka-consumer-groups --bootstrap-server localhost:9092 --list
+
+# Describe consumer group:
+kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group app1
+
+# Reset offsets:
+kafka-consumer-groups --bootstrap-server localhost:9092 --group app1 --reset-offsets --to-earliest --execute --topic Gianna
+
+
+# Other options:
+kafka-console-producer --broker-list 127.0.0.1:9092 --topic Gianna --property parse.key=true --property key.separator=,
+
+kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic Gianna --from-beginning --property print.key=true --property key.separator=,
+
