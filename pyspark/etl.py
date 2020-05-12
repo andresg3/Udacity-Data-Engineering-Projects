@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 config = configparser.ConfigParser()
 config.read('dl.cfg')
 
-# No need to set env variable
+# No need to set env variables (just for testing)
 os.environ['AWS_ACCESS_KEY_ID'] = config['AWS']['AWS_ACCESS_KEY_ID']
 os.environ['AWS_SECRET_ACCESS_KEY'] = config['AWS']['AWS_SECRET_ACCESS_KEY']
 
